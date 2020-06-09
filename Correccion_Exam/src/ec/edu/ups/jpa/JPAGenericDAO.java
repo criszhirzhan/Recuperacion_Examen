@@ -103,9 +103,33 @@ public class JPAGenericDAO<T, ID> implements GenericDAO<T, ID> {
 	}
 
 	@Override
-	public List<T> find() {
+	public List<T> find(String attributes, String values) {
 		// TODO Auto-generated method stub
-		return null;
+		// Se crea un criterio de consulta
+		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(this.persistentClass);
+		// Se establece la clausula FROM
+		Root<T> root = criteriaQuery.from(this.persistentClass);
+		// Se establece la clausula SELECT
+		criteriaQuery.select(root); // criteriaQuery.multiselect(root.get(atr))
+		// // Se configuran los predicados,
+		// combinados por AND
+		Predicate predicate = criteriaBuilder.conjunction();
+
+		Predicate sig = criteriaBuilder.like(root.get(attributes).as(String.class), values);
+		// Predicate sig =
+		// criteriaBuilder.like(root.get(attributes[i]).as(String.class),
+		// values[i]);
+		predicate = criteriaBuilder.and(predicate, sig);
+
+		// Predicate sig =
+		// criteriaBuilder.like(root.get(attributes[i]).as(String.class),
+		// values[i]);
+
+		criteriaQuery.where(predicate);
+
+		Query query = em.createQuery(criteriaQuery);
+		return query.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -209,6 +233,12 @@ public class JPAGenericDAO<T, ID> implements GenericDAO<T, ID> {
 
 		Query query = em.createQuery(criteriaQuery);
 		return (T) query.getSingleResult();
+	}
+
+	@Override
+	public List<T> find() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -22,8 +22,8 @@
 			<nav id="nav">
 				<ul>
 					<li><a href="index.html">Home</a></li>
-					<li><a href="/Correccion_Exam/Paginas/listarLibros.jsp">Listar Libros</a></li>
-					<li><a href="/Correccion_Exam/Paginas/RegistrarLibro.jsp">Ingresar
+					<li><a href="/Correccion_Exam/IndexController?id=1">Listar Libros</a></li>
+					<li><a href="/Correccion_Exam/IndexController?id=4">Ingresar
 							Libro</a></li>
 
 				</ul>
